@@ -17,7 +17,7 @@ function App() {
   <div className='bg-pink-200 w-screen h-screen flex-col '>
     <div className='absolute pl-2 text-2xl font-mono font-bold text-purple-950 flex-col h-screen w-screen bg-pink-200 ' >  
 //       
- <Typewriter options={{strings: ['To many more trips around the sun!! ' , 'Happy Birthday Poofy Hair '], autoStart: true, loop: true, }}/> 
+ <Typewriter options={{strings: ['To many more trips around the sun!! ' , 'Happy Birthday in Advance Poofy Hair '], autoStart: true, loop: true, }}/> 
 //   
 <div className='flex-col justify-center mt-10 mx-1'>
 
