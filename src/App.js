@@ -19,7 +19,7 @@ function App() {
 //       
  <Typewriter options={{strings: ['To many more trips around the sun!! ' , 'Happy Birthday in Advance Poofy Hair '], autoStart: true, loop: true, }}/> 
 //   
-<div className='flex-col justify-center mt-10 mx-1'>
+<div className='flex-col justify-center mt-10 mx-1 bg-pink-200 '>
 
  being friends with you was not so hard,
 I didn't have to change myself or be someone else around you.Thank you for reminding me to love myself and most importantly to love and trust god over my fears.For all the times you've tolerated me and my crap, sometimes I believe that more than the clinics it was me who drained your energy out..... XD XD!
