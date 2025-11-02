@@ -21,10 +21,7 @@ function App() {
 //   
 <div className='flex-col justify-center mt-10 mx-1 bg-pink-200 '>
 
- being friends with you was not so hard,
-I didn't have to change myself or be someone else around you.Thank you for reminding me to love myself and most importantly to love and trust god over my fears.For all the times you've tolerated me and my crap, sometimes I believe that more than the clinics it was me who drained your energy out..... XD XD!
-I pray and wish that you'll succeed and be a testimony and encouragement to many people.I'm leaving Manipal soon and out of all the 4 years,finding a friend like you was one of the best things that ever happened to me.Imma come back, this time in a 330LI FOHSHO. Till then this keyboard is custom built by me and all parts underneath the keys were tuned to make it sound like the 13:44 vid you sent me. Have fun doing your assignments now TOPPER....
-
+ Really don't understand what you meant by disatnce and space. so if it's not talking to you anymore then makes sense that I don't text you if not I just don't know what space means but just wanted to let you know, you've made me a better person than I was. Happy Birthday Poof.
 <div> </div>
 - Dummy
 
