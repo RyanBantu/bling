@@ -21,7 +21,10 @@ function App() {
 //   
 <div className='flex-col justify-center mt-10 mx-1 bg-pink-200 '>
 
- Really don't understand what you meant by disatnce and space. so if it's not talking to you anymore then makes sense that I don't text you if not I just don't know what space means but just wanted to let you know, you've made me a better person than I was. Happy Birthday Poof.
+I really don’t understand what you meant by distance and space. If it means you don’t want to talk anymore, I get it — it makes sense that I shouldn’t text you. If not, I’m just unsure what space means, but I wanted to wish you a happy birthday anyway.
+
+Happy Birthday, Poof.
+
 <div> </div>
 - Dummy
 
