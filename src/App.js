@@ -1,11 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import TorusBackground from './components/TorusBackground';
 import Navbar from './components/Navbar';
 import Auth from './components/Auth';
 import Home from './pages/Home';
 import Gallery from './pages/Gallery';
 import Thoughts from './pages/Thoughts';
+import FourD from './pages/FourD';
+
+const AppContent = () => {
+  const location = useLocation();
+  const showNavbar = location.pathname !== '/4d';
+
+  return (
+    <div className='bg-white w-full min-h-screen flex-col relative overflow-x-hidden'>
+      <TorusBackground />
+      {showNavbar && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/thoughts" element={<Thoughts />} />
+        <Route path="/4d" element={<FourD />} />
+      </Routes>
+    </div>
+  );
+};
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,15 +47,7 @@ function App() {
 
   return (
     <Router>
-      <div className='bg-white w-full min-h-screen flex-col relative overflow-x-hidden'>
-        <TorusBackground />
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/gallery" element={<Gallery />} />
-          <Route path="/thoughts" element={<Thoughts />} />
-        </Routes>
-      </div>
+      <AppContent />
     </Router>
   );
 }

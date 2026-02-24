@@ -55,6 +55,16 @@ const Navbar = () => {
             >
               Thoughts
             </Link>
+            <Link
+              to="/4d"
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === '/4d'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-purple-950 hover:bg-purple-100'
+              }`}
+            >
+              4D
+            </Link>
           </div>
 
           {/* Mobile Burger Button */}
@@ -134,6 +144,17 @@ const Navbar = () => {
               }`}
             >
               Thoughts
+            </Link>
+            <Link
+              to="/4d"
+              onClick={closeMenu}
+              className={`block px-4 py-2 rounded-md text-base font-medium transition-colors ${
+                location.pathname === '/4d'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-purple-950 hover:bg-purple-100'
+              }`}
+            >
+              4D
             </Link>
           </div>
         </div>
