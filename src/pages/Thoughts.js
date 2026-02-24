@@ -10,12 +10,17 @@ const Thoughts = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [passwordInput, setPasswordInput] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isDummyAuthenticated, setIsDummyAuthenticated] = useState(false);
 
-  // Load current user from localStorage
+  // Load current user and Dummy authentication from localStorage
   useEffect(() => {
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       setCurrentUser(savedUser);
+    }
+    const dummyAuth = localStorage.getItem('dummyAuthenticated');
+    if (dummyAuth === 'true') {
+      setIsDummyAuthenticated(true);
     }
   }, []);
 
@@ -48,6 +53,14 @@ const Thoughts = () => {
     e.preventDefault();
     if (newThought.trim() === '') return;
 
+    // If posting as Dummy and not authenticated, show password modal
+    if (currentUser === 'Dummy' && !isDummyAuthenticated) {
+      setShowPasswordModal(true);
+      setPasswordInput('');
+      setPasswordError('');
+      return;
+    }
+
     try {
       const thought = {
         text: newThought,
@@ -77,24 +90,46 @@ const Thoughts = () => {
   const DUMMY_PASSWORD = 'Amiga@5623';
 
   const switchUser = (user) => {
-    if (user === 'Dummy') {
-      // Show password modal for Dummy
-      setShowPasswordModal(true);
-      setPasswordInput('');
-      setPasswordError('');
-    } else {
-      // Switch to Poof without password
-      setCurrentUser('Poof');
+    setCurrentUser(user);
+    // Reset Dummy authentication when switching away from Dummy
+    if (user !== 'Dummy') {
+      setIsDummyAuthenticated(false);
+      localStorage.removeItem('dummyAuthenticated');
     }
   };
 
-  const handlePasswordSubmit = (e) => {
+  const handlePasswordSubmit = async (e) => {
     e.preventDefault();
     if (passwordInput === DUMMY_PASSWORD) {
-      setCurrentUser('Dummy');
+      setIsDummyAuthenticated(true);
+      localStorage.setItem('dummyAuthenticated', 'true');
       setShowPasswordModal(false);
       setPasswordInput('');
       setPasswordError('');
+      
+      // Now submit the thought after authentication
+      if (newThought.trim() !== '') {
+        try {
+          const thought = {
+            text: newThought,
+            author: currentUser,
+            timestamp: new Date().toISOString(),
+            createdAt: new Date()
+          };
+
+          await addDoc(collection(db, 'thoughts'), thought);
+          setNewThought('');
+        } catch (error) {
+          console.error('Error adding thought:', error);
+          if (error.code === 'permission-denied') {
+            alert('Permission denied. Please check Firestore security rules in Firebase Console.');
+          } else if (error.code === 'unavailable') {
+            alert('Firestore is unavailable. Please check your internet connection.');
+          } else {
+            alert(`Failed to post thought: ${error.message}. Check console for details.`);
+          }
+        }
+      }
     } else {
       setPasswordError('Incorrect password. Please try again.');
       setPasswordInput('');
@@ -259,7 +294,7 @@ const Thoughts = () => {
                     <p className="font-semibold text-purple-950">{thought.author}</p>
                     <p className="text-sm text-purple-600">{formatTimestamp(thought.timestamp || thought.createdAt)}</p>
                   </div>
-                  {currentUser === 'Dummy' && (
+                  {currentUser === 'Dummy' && isDummyAuthenticated && (
                     <button
                       onClick={() => handleDelete(thought.id)}
                       className="text-red-500 hover:text-red-700 focus:outline-none transition-colors"
