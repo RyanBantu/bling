@@ -34,6 +34,16 @@ const Navbar = () => {
             >
               Gallery
             </Link>
+            <Link
+              to="/thoughts"
+              className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location.pathname === '/thoughts'
+                  ? 'bg-purple-600 text-white'
+                  : 'text-purple-950 hover:bg-purple-100'
+              }`}
+            >
+              Thoughts
+            </Link>
           </div>
         </div>
       </div>

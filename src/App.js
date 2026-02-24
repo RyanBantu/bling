@@ -4,6 +4,7 @@ import TorusBackground from './components/TorusBackground';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Gallery from './pages/Gallery';
+import Thoughts from './pages/Thoughts';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/gallery" element={<Gallery />} />
+          <Route path="/thoughts" element={<Thoughts />} />
         </Routes>
       </div>
     </Router>
