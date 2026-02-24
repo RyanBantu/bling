@@ -1,41 +1,100 @@
 import React, { useState, useEffect } from 'react';
+import { collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/config';
 
 const Thoughts = () => {
   const [thoughts, setThoughts] = useState([]);
   const [newThought, setNewThought] = useState('');
-  const [author, setAuthor] = useState('');
+  const [currentUser, setCurrentUser] = useState('Dummy');
+  const [loading, setLoading] = useState(true);
 
-  // Load thoughts from localStorage on component mount
+  // Load current user from localStorage
   useEffect(() => {
-    const savedThoughts = localStorage.getItem('thoughts');
-    if (savedThoughts) {
-      setThoughts(JSON.parse(savedThoughts));
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      setCurrentUser(savedUser);
     }
   }, []);
 
-  // Save thoughts to localStorage whenever thoughts change
+  // Save current user to localStorage whenever it changes
   useEffect(() => {
-    localStorage.setItem('thoughts', JSON.stringify(thoughts));
-  }, [thoughts]);
+    localStorage.setItem('currentUser', currentUser);
+  }, [currentUser]);
 
-  const handleSubmit = (e) => {
+  // Load thoughts from Firestore with real-time updates
+  useEffect(() => {
+    const thoughtsRef = collection(db, 'thoughts');
+    const q = query(thoughtsRef, orderBy('timestamp', 'desc'));
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const thoughtsData = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setThoughts(thoughtsData);
+      setLoading(false);
+    }, (error) => {
+      console.error('Error fetching thoughts:', error);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (newThought.trim() === '') return;
 
-    const thought = {
-      id: Date.now(),
-      text: newThought,
-      author: author.trim() || 'Anonymous',
-      timestamp: new Date().toLocaleString(),
-    };
+    try {
+      const thought = {
+        text: newThought,
+        author: currentUser,
+        timestamp: new Date().toISOString(),
+        createdAt: new Date()
+      };
 
-    setThoughts([thought, ...thoughts]);
-    setNewThought('');
-    setAuthor('');
+      await addDoc(collection(db, 'thoughts'), thought);
+      setNewThought('');
+    } catch (error) {
+      console.error('Error adding thought:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      
+      // More specific error messages
+      if (error.code === 'permission-denied') {
+        alert('Permission denied. Please check Firestore security rules in Firebase Console.');
+      } else if (error.code === 'unavailable') {
+        alert('Firestore is unavailable. Please check your internet connection.');
+      } else {
+        alert(`Failed to post thought: ${error.message}. Check console for details.`);
+      }
+    }
   };
 
-  const handleDelete = (id) => {
-    setThoughts(thoughts.filter(thought => thought.id !== id));
+  const switchUser = (user) => {
+    setCurrentUser(user);
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await deleteDoc(doc(db, 'thoughts', id));
+    } catch (error) {
+      console.error('Error deleting thought:', error);
+      console.error('Error code:', error.code);
+      console.error('Error message:', error.message);
+      
+      if (error.code === 'permission-denied') {
+        alert('Permission denied. Please check Firestore security rules in Firebase Console.');
+      } else {
+        alert(`Failed to delete thought: ${error.message}. Check console for details.`);
+      }
+    }
+  };
+
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return '';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleString();
   };
 
   return (
@@ -45,25 +104,41 @@ const Thoughts = () => {
           Thoughts
         </h1>
 
+        {/* User Switcher */}
+        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-4">
+          <div className="flex items-center justify-center space-x-4">
+            <span className="text-sm font-medium text-purple-950">Posting as:</span>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => switchUser('Dummy')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  currentUser === 'Dummy'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
+                }`}
+              >
+                Dummy
+              </button>
+              <button
+                onClick={() => switchUser('Poof')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                  currentUser === 'Poof'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
+                }`}
+              >
+                Poof
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Form to add new thought */}
         <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-6 md:p-8 mb-8">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label htmlFor="author" className="block text-sm font-medium text-purple-950 mb-2">
-                Your Name (optional)
-              </label>
-              <input
-                type="text"
-                id="author"
-                value={author}
-                onChange={(e) => setAuthor(e.target.value)}
-                placeholder="Enter your name..."
-                className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              />
-            </div>
-            <div>
               <label htmlFor="thought" className="block text-sm font-medium text-purple-950 mb-2">
-                Your Thought
+                Your Thought <span className="text-purple-600">(as {currentUser})</span>
               </label>
               <textarea
                 id="thought"
@@ -78,14 +153,18 @@ const Thoughts = () => {
               type="submit"
               className="w-full md:w-auto px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
             >
-              Post Thought
+              Post Thought as {currentUser}
             </button>
           </form>
         </div>
 
         {/* Display thoughts */}
         <div className="space-y-4">
-          {thoughts.length === 0 ? (
+          {loading ? (
+            <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center text-purple-700">
+              <p>Loading thoughts...</p>
+            </div>
+          ) : thoughts.length === 0 ? (
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center text-purple-700">
               <p>No thoughts yet. Be the first to share!</p>
             </div>
@@ -98,7 +177,7 @@ const Thoughts = () => {
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <p className="font-semibold text-purple-950">{thought.author}</p>
-                    <p className="text-sm text-purple-600">{thought.timestamp}</p>
+                    <p className="text-sm text-purple-600">{formatTimestamp(thought.timestamp || thought.createdAt)}</p>
                   </div>
                   <button
                     onClick={() => handleDelete(thought.id)}

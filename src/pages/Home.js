@@ -8,7 +8,7 @@ const Home = () => {
         <div className="text-2xl md:text-3xl font-mono font-bold text-purple-950 mb-6 text-center">
           <Typewriter
             options={{
-              strings: ['To many more trips around the sun!!', 'Happy Birthday in Advance Poofy Hair'],
+              strings: ['To many more trips around the sun!!', 'Happy Birthday Poofy Hair'],
               autoStart: true,
               loop: true,
             }}
