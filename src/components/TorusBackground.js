@@ -91,8 +91,8 @@ const TorusBackground = () => {
       points.forEach(point => {
         if (point.x >= 0 && point.x <= canvas.width && point.y >= 0 && point.y <= canvas.height) {
           ctx.beginPath();
-          ctx.arc(point.x, point.y, Math.max(1, point.size), 0, Math.PI * 2);
-          ctx.fillStyle = 'rgba(147, 51, 234, 0.7)'; // Purple dots
+          ctx.arc(point.x, point.y, Math.max(2, point.size), 0, Math.PI * 2);
+          ctx.fillStyle = 'rgba(147, 51, 234, 0.8)'; // Purple dots - more visible
           ctx.fill();
         }
       });
