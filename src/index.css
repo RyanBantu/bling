@@ -4,8 +4,17 @@
 @import '~slick-carousel/slick/slick.css';
 @import '~slick-carousel/slick/slick-theme.css';
 
-body {
+html, body {
   background-color: white;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  width: 100%;
+  position: relative;
+  touch-action: pan-y;
+}
+
+#root {
+  width: 100%;
+  overflow-x: hidden;
 }

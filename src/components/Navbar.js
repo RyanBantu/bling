@@ -13,7 +13,7 @@ const Navbar = () => {
               Poofy Hair
             </Link>
           </div>
-          <div className="flex space-x-4">
+          <div className="flex flex-wrap space-x-2 sm:space-x-4">
             <Link
               to="/"
               className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${

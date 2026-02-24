@@ -28,7 +28,7 @@ function App() {
 
   return (
     <Router>
-      <div className='bg-white w-screen min-h-screen flex-col relative'>
+      <div className='bg-white w-full min-h-screen flex-col relative overflow-x-hidden'>
         <TorusBackground />
         <Navbar />
         <Routes>
