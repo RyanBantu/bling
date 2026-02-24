@@ -23,7 +23,7 @@ const Gallery = () => {
             >
               <img
                 src={img}
-                alt={`Gallery image ${index + 1}`}
+                alt={`Gallery ${index + 1}`}
                 className="w-full h-auto object-cover"
               />
             </div>
