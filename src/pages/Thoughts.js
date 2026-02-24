@@ -7,6 +7,9 @@ const Thoughts = () => {
   const [newThought, setNewThought] = useState('');
   const [currentUser, setCurrentUser] = useState('Dummy');
   const [loading, setLoading] = useState(true);
+  const [showPasswordModal, setShowPasswordModal] = useState(false);
+  const [passwordInput, setPasswordInput] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   // Load current user from localStorage
   useEffect(() => {
@@ -71,8 +74,37 @@ const Thoughts = () => {
     }
   };
 
+  const DUMMY_PASSWORD = 'Amiga@5623';
+
   const switchUser = (user) => {
-    setCurrentUser(user);
+    if (user === 'Dummy') {
+      // Show password modal for Dummy
+      setShowPasswordModal(true);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      // Switch to Poof without password
+      setCurrentUser('Poof');
+    }
+  };
+
+  const handlePasswordSubmit = (e) => {
+    e.preventDefault();
+    if (passwordInput === DUMMY_PASSWORD) {
+      setCurrentUser('Dummy');
+      setShowPasswordModal(false);
+      setPasswordInput('');
+      setPasswordError('');
+    } else {
+      setPasswordError('Incorrect password. Please try again.');
+      setPasswordInput('');
+    }
+  };
+
+  const handlePasswordCancel = () => {
+    setShowPasswordModal(false);
+    setPasswordInput('');
+    setPasswordError('');
   };
 
   const handleDelete = async (id) => {
@@ -103,6 +135,54 @@ const Thoughts = () => {
         <h1 className="text-3xl md:text-4xl font-mono font-bold text-purple-950 mb-8 text-center">
           Thoughts
         </h1>
+
+        {/* Password Modal */}
+        {showPasswordModal && (
+          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg shadow-2xl p-6 md:p-8 max-w-md w-full">
+              <h2 className="text-2xl font-mono font-bold text-purple-950 mb-4">
+                Enter Password for Dummy
+              </h2>
+              <form onSubmit={handlePasswordSubmit} className="space-y-4">
+                <div>
+                  <label htmlFor="password" className="block text-sm font-medium text-purple-950 mb-2">
+                    Password
+                  </label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={passwordInput}
+                    onChange={(e) => {
+                      setPasswordInput(e.target.value);
+                      setPasswordError('');
+                    }}
+                    placeholder="Enter password..."
+                    className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    autoFocus
+                  />
+                  {passwordError && (
+                    <p className="text-red-600 text-sm mt-2">{passwordError}</p>
+                  )}
+                </div>
+                <div className="flex space-x-3">
+                  <button
+                    type="submit"
+                    className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
+                  >
+                    Submit
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handlePasswordCancel}
+                    className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
         {/* User Switcher */}
         <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-4">
