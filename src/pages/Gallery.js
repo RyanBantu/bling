@@ -9,7 +9,6 @@ import deb7 from "../components/debbie/7.jpg";
 import deb8 from "../components/debbie/8.jpg";
 import deb9 from "../components/debbie/9.jpg";
 import deb12 from "../components/debbie/12.jpg";
-import deb13 from "../components/debbie/13.jpg";
 import chatgpt from "../components/debbie/ChatGPT Image Feb 25, 2026 at 11_55_23 AM.png";
 import whatsapp1 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (1).jpeg";
 import whatsapp2 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (2).jpeg";
@@ -22,13 +21,13 @@ import whatsapp8 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.4
 
 const Gallery = () => {
   const images = [
-    deb1, deb2, deb3, deb4, deb5, deb6, deb7, deb8, deb9, deb12, deb13,
+    deb1, deb2, deb3, deb4, deb5, deb6, deb7, deb8, deb9, deb12,
     chatgpt, whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8
   ];
 
   // Generate random rotation for Polaroid effect
   const getRotation = (index) => {
-    const rotations = [-2, -1, 0, 1, 2, -1.5, 1.5, -0.5, 0.5, -2.5, 2.5];
+    const rotations = [-2, -1, 0, 1, 2, -1.5, 1.5, -0.5, 0.5, -2.5, 2.5, -1.2, 1.2, -0.8, 0.8, -1.8, 1.8, -0.3, 0.3];
     return rotations[index % rotations.length];
   };
 
@@ -41,8 +40,8 @@ const Gallery = () => {
         
         {/* Desktop: Square grid layout with Polaroid style */}
         <div className="hidden md:flex justify-center">
-          <div className="w-full max-w-5xl aspect-square">
-            <div className="grid grid-cols-5 grid-rows-4 gap-4 h-full w-full">
+          <div className="w-full max-w-5xl">
+            <div className="grid grid-cols-5 grid-rows-4 gap-4">
               {images.map((img, index) => {
                 const rotation = getRotation(index);
                 return (
