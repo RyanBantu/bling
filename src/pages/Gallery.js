@@ -1,13 +1,30 @@
 import React from 'react';
-import deb1 from "../components/debbie/12.jpg";
+import deb1 from "../components/debbie/1.jpg";
+import deb2 from "../components/debbie/2.jpg";
+import deb3 from "../components/debbie/3.jpg";
 import deb4 from "../components/debbie/4.jpg";
 import deb5 from "../components/debbie/5.jpg";
 import deb6 from "../components/debbie/6.jpg";
 import deb7 from "../components/debbie/7.jpg";
 import deb8 from "../components/debbie/8.jpg";
+import deb9 from "../components/debbie/9.jpg";
+import deb12 from "../components/debbie/12.jpg";
+import deb13 from "../components/debbie/13.jpg";
+import whatsapp1 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (1).jpeg";
+import whatsapp2 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (2).jpeg";
+import whatsapp3 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (3).jpeg";
+import whatsapp4 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38.jpeg";
+import whatsapp5 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39 (1).jpeg";
+import whatsapp6 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39 (2).jpeg";
+import whatsapp7 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39.jpeg";
+import whatsapp8 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40 (1).jpeg";
+import whatsapp9 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40.jpeg";
 
 const Gallery = () => {
-  const images = [deb1, deb4, deb5, deb6, deb7, deb8];
+  const images = [
+    deb1, deb2, deb3, deb4, deb5, deb6, deb7, deb8, deb9, deb12, deb13,
+    whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8, whatsapp9
+  ];
 
   return (
     <div className="relative z-10 min-h-screen px-4 py-20">
