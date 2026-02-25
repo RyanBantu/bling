@@ -18,16 +18,17 @@ import whatsapp5 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.3
 import whatsapp6 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39.jpeg";
 import whatsapp7 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40 (1).jpeg";
 import whatsapp8 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40.jpeg";
+import whatsapp9 from "../components/debbie/WhatsApp Image 2026-02-25 at 12.11.27.jpeg";
 
 const Gallery = () => {
   const images = [
     deb1, deb2, deb3, deb4, deb5, deb6, deb7, deb8, deb9, deb12,
-    chatgpt, whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8
+    chatgpt, whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8, whatsapp9
   ];
 
   // Generate random rotation for Polaroid effect
   const getRotation = (index) => {
-    const rotations = [-2, -1, 0, 1, 2, -1.5, 1.5, -0.5, 0.5, -2.5, 2.5, -1.2, 1.2, -0.8, 0.8, -1.8, 1.8, -0.3, 0.3];
+    const rotations = [-2, -1, 0, 1, 2, -1.5, 1.5, -0.5, 0.5, -2.5, 2.5, -1.2, 1.2, -0.8, 0.8, -1.8, 1.8, -0.3, 0.3, -1.7];
     return rotations[index % rotations.length];
   };
 
@@ -38,7 +39,7 @@ const Gallery = () => {
           Gallery
         </h1>
         
-        {/* Desktop: Square grid layout with Polaroid style */}
+        {/* Desktop: Square grid layout with yellow post-it style */}
         <div className="hidden md:flex justify-center">
           <div className="w-full max-w-5xl">
             <div className="grid grid-cols-5 grid-rows-4 gap-4">
@@ -50,7 +51,7 @@ const Gallery = () => {
                     className="relative group cursor-pointer"
                     style={{ transform: `rotate(${rotation}deg)` }}
                   >
-                    <div className="bg-white rounded-sm shadow-lg p-2 pb-8 hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                    <div className="bg-yellow-200 rounded-sm shadow-lg p-2 pb-8 hover:shadow-2xl transition-all duration-300 hover:scale-105 border border-yellow-300">
                       <div className="aspect-square overflow-hidden rounded-sm">
                         <img
                           src={img}
@@ -58,8 +59,8 @@ const Gallery = () => {
                           className="w-full h-full object-cover"
                         />
                       </div>
-                      {/* Polaroid bottom border for writing */}
-                      <div className="h-6 mt-2 bg-white"></div>
+                      {/* Post-it bottom border for writing */}
+                      <div className="h-6 mt-2 bg-yellow-200"></div>
                     </div>
                   </div>
                 );
@@ -68,7 +69,7 @@ const Gallery = () => {
           </div>
         </div>
 
-        {/* Mobile: Scrollable horizontal layout with Polaroid style */}
+        {/* Mobile: Scrollable horizontal layout with yellow post-it style */}
         <div className="md:hidden overflow-x-auto pb-4">
           <div className="flex space-x-4 min-w-max px-4">
             {images.map((img, index) => {
@@ -79,7 +80,7 @@ const Gallery = () => {
                   className="relative flex-shrink-0 group"
                   style={{ transform: `rotate(${rotation}deg)` }}
                 >
-                  <div className="bg-white rounded-sm shadow-lg p-2 pb-8 w-64 hover:shadow-2xl transition-all duration-300">
+                  <div className="bg-yellow-200 rounded-sm shadow-lg p-2 pb-8 w-64 hover:shadow-2xl transition-all duration-300 border border-yellow-300">
                     <div className="aspect-square overflow-hidden rounded-sm">
                       <img
                         src={img}
@@ -87,8 +88,8 @@ const Gallery = () => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    {/* Polaroid bottom border for writing */}
-                    <div className="h-6 mt-2 bg-white"></div>
+                    {/* Post-it bottom border for writing */}
+                    <div className="h-6 mt-2 bg-yellow-200"></div>
                   </div>
                 </div>
               );
