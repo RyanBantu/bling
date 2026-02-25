@@ -232,11 +232,15 @@ const Thoughts = () => {
   };
 
   return (
-    <div className="relative z-10 min-h-screen px-4 py-20">
-      <div className="max-w-4xl mx-auto">
+    <div className="relative z-10 min-h-screen py-20">
+      <div className="max-w-7xl mx-auto px-4">
         <h1 className="text-3xl md:text-4xl font-mono font-bold text-purple-950 mb-8 text-center">
           Thoughts
         </h1>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-12rem)]">
+          {/* Left Side - Posts/Events Display */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 md:p-6 overflow-y-auto">
 
         {/* Password Modal */}
         {showPasswordModal && (
@@ -286,128 +290,12 @@ const Thoughts = () => {
           </div>
         )}
 
-        {/* User Switcher */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-4">
-          <div className="flex items-center justify-center space-x-4">
-            <span className="text-sm font-medium text-purple-950">Posting as:</span>
-            <div className="flex space-x-2">
-              <button
-                onClick={() => switchUser('Dummy')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentUser === 'Dummy'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
-                }`}
-              >
-                Dummy
-              </button>
-              <button
-                onClick={() => switchUser('Poof')}
-                className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                  currentUser === 'Poof'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
-                }`}
-              >
-                Poof
-              </button>
-            </div>
-          </div>
-        </div>
 
-        {/* Create Event Form */}
-        <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-6 md:p-8 mb-8">
-          {!showEventForm ? (
-            <button
-              onClick={() => setShowEventForm(true)}
-              className="w-full px-6 py-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
-            >
-              Create New Event
-            </button>
-          ) : (
-            <form onSubmit={handleEventSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="eventTitle" className="block text-sm font-medium text-purple-950 mb-2">
-                  Event Title
-                </label>
-                <input
-                  type="text"
-                  id="eventTitle"
-                  value={newEventTitle}
-                  onChange={(e) => setNewEventTitle(e.target.value)}
-                  placeholder="Enter event title..."
-                  className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-                  autoFocus
-                />
-              </div>
-              <div className="flex space-x-3">
-                <button
-                  type="submit"
-                  className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
-                >
-                  Create Event
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setShowEventForm(false);
-                    setNewEventTitle('');
-                  }}
-                  className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium"
-                >
-                  Cancel
-                </button>
-              </div>
-            </form>
-          )}
-        </div>
-
-        {/* Event Selector and Thought Form */}
-        {events.length > 0 && (
-          <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-6 md:p-8 mb-8">
-            <div className="mb-4">
-              <label htmlFor="eventSelect" className="block text-sm font-medium text-purple-950 mb-2">
-                Select Event
-              </label>
-              <select
-                id="eventSelect"
-                value={selectedEventId}
-                onChange={(e) => setSelectedEventId(e.target.value)}
-                className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
-              >
-                {events.map(event => (
-                  <option key={event.id} value={event.id}>
-                    {event.title}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div>
-                <label htmlFor="thought" className="block text-sm font-medium text-purple-950 mb-2">
-                  Your Thought <span className="text-purple-600">(as {currentUser})</span>
-                </label>
-                <textarea
-                  id="thought"
-                  value={newThought}
-                  onChange={(e) => setNewThought(e.target.value)}
-                  placeholder="Write your thoughts here..."
-                  rows="6"
-                  className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full md:w-auto px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
-              >
-                Post Thought as {currentUser}
-              </button>
-            </form>
-          </div>
-        )}
-
-        {/* Display Events with Thoughts */}
-        <div className="space-y-6">
+            <h2 className="text-xl font-mono font-bold text-purple-950 mb-4 sticky top-0 bg-white/90 py-2">
+              Posts
+            </h2>
+            {/* Display Events with Thoughts */}
+            <div className="space-y-6">
           {loading ? (
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center text-purple-700">
               <p>Loading...</p>
@@ -507,6 +395,137 @@ const Thoughts = () => {
               );
             })
           )}
+            </div>
+          </div>
+
+          {/* Right Side - Writing/Forms */}
+          <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4 md:p-6 overflow-y-auto">
+            <h2 className="text-xl font-mono font-bold text-purple-950 mb-4 sticky top-0 bg-white/90 py-2">
+              Write
+            </h2>
+            
+            <div className="space-y-6">
+              {/* User Switcher */}
+              <div className="bg-purple-50 rounded-lg p-4">
+                <div className="flex items-center justify-center space-x-4">
+                  <span className="text-sm font-medium text-purple-950">Posting as:</span>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => switchUser('Dummy')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        currentUser === 'Dummy'
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
+                      }`}
+                    >
+                      Dummy
+                    </button>
+                    <button
+                      onClick={() => switchUser('Poof')}
+                      className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        currentUser === 'Poof'
+                          ? 'bg-purple-600 text-white'
+                          : 'bg-purple-100 text-purple-950 hover:bg-purple-200'
+                      }`}
+                    >
+                      Poof
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Create Event Form */}
+              <div className="bg-purple-50 rounded-lg p-4">
+                {!showEventForm ? (
+                  <button
+                    onClick={() => setShowEventForm(true)}
+                    className="w-full px-6 py-3 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
+                  >
+                    Create New Event
+                  </button>
+                ) : (
+                  <form onSubmit={handleEventSubmit} className="space-y-4">
+                    <div>
+                      <label htmlFor="eventTitle" className="block text-sm font-medium text-purple-950 mb-2">
+                        Event Title
+                      </label>
+                      <input
+                        type="text"
+                        id="eventTitle"
+                        value={newEventTitle}
+                        onChange={(e) => setNewEventTitle(e.target.value)}
+                        placeholder="Enter event title..."
+                        className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                        autoFocus
+                      />
+                    </div>
+                    <div className="flex space-x-3">
+                      <button
+                        type="submit"
+                        className="flex-1 px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
+                      >
+                        Create Event
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowEventForm(false);
+                          setNewEventTitle('');
+                        }}
+                        className="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors font-medium"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+
+              {/* Event Selector and Thought Form */}
+              {events.length > 0 && (
+                <div className="bg-purple-50 rounded-lg p-4">
+                  <div className="mb-4">
+                    <label htmlFor="eventSelect" className="block text-sm font-medium text-purple-950 mb-2">
+                      Select Event
+                    </label>
+                    <select
+                      id="eventSelect"
+                      value={selectedEventId}
+                      onChange={(e) => setSelectedEventId(e.target.value)}
+                      className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                    >
+                      {events.map(event => (
+                        <option key={event.id} value={event.id}>
+                          {event.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                      <label htmlFor="thought" className="block text-sm font-medium text-purple-950 mb-2">
+                        Your Thought <span className="text-purple-600">(as {currentUser})</span>
+                      </label>
+                      <textarea
+                        id="thought"
+                        value={newThought}
+                        onChange={(e) => setNewThought(e.target.value)}
+                        placeholder="Write your thoughts here..."
+                        rows="6"
+                        className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="w-full px-6 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 transition-colors font-medium"
+                    >
+                      Post Thought as {currentUser}
+                    </button>
+                  </form>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>
