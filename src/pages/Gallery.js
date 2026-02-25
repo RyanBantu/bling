@@ -26,52 +26,49 @@ const Gallery = () => {
     whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8, whatsapp9
   ];
 
-  // Define collage layout with varying sizes
-  const collageLayout = [
-    { span: 'col-span-2 row-span-2' }, // Large
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-2' }, // Tall
-    { span: 'col-span-2 row-span-1' }, // Wide
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-2 row-span-2' }, // Large
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-2' }, // Tall
-    { span: 'col-span-2 row-span-1' }, // Wide
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-2 row-span-2' }, // Large
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-2' }, // Tall
-    { span: 'col-span-2 row-span-1' }, // Wide
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-1 row-span-1' }, // Small
-    { span: 'col-span-2 row-span-1' }, // Wide
-    { span: 'col-span-1 row-span-1' }, // Small
-  ];
-
   return (
     <div className="relative z-10 min-h-screen px-4 py-20">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-mono font-bold text-purple-950 mb-8 text-center">
           Gallery
         </h1>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[150px] gap-4">
-          {images.map((img, index) => {
-            const layout = collageLayout[index % collageLayout.length];
-            return (
+        
+        {/* Desktop: Square grid layout - 5 columns x 4 rows = 20 images */}
+        <div className="hidden md:flex justify-center">
+          <div className="w-full max-w-5xl aspect-square">
+            <div className="grid grid-cols-5 grid-rows-4 gap-2 h-full w-full">
+              {images.map((img, index) => (
+                <div
+                  key={index}
+                  className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group cursor-pointer flex items-center justify-center p-1"
+                >
+                  <img
+                    src={img}
+                    alt={`Memory ${index + 1}`}
+                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile: Scrollable horizontal layout */}
+        <div className="md:hidden overflow-x-auto pb-4">
+          <div className="flex space-x-4 min-w-max px-4">
+            {images.map((img, index) => (
               <div
                 key={index}
-                className={`${layout.span} bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group cursor-pointer`}
+                className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex-shrink-0 w-64 h-64 flex items-center justify-center p-2"
               >
                 <img
                   src={img}
                   alt={`Memory ${index + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  className="w-full h-full object-contain"
                 />
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
       </div>
     </div>
