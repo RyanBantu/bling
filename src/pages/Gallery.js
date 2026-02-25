@@ -10,20 +10,20 @@ import deb8 from "../components/debbie/8.jpg";
 import deb9 from "../components/debbie/9.jpg";
 import deb12 from "../components/debbie/12.jpg";
 import deb13 from "../components/debbie/13.jpg";
+import chatgpt from "../components/debbie/ChatGPT Image Feb 25, 2026 at 11_55_23 AM.png";
 import whatsapp1 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (1).jpeg";
 import whatsapp2 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (2).jpeg";
 import whatsapp3 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38 (3).jpeg";
 import whatsapp4 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.38.jpeg";
 import whatsapp5 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39 (1).jpeg";
-import whatsapp6 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39 (2).jpeg";
-import whatsapp7 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39.jpeg";
-import whatsapp8 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40 (1).jpeg";
-import whatsapp9 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40.jpeg";
+import whatsapp6 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.39.jpeg";
+import whatsapp7 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40 (1).jpeg";
+import whatsapp8 from "../components/debbie/WhatsApp Image 2026-02-25 at 10.44.40.jpeg";
 
 const Gallery = () => {
   const images = [
     deb1, deb2, deb3, deb4, deb5, deb6, deb7, deb8, deb9, deb12, deb13,
-    whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8, whatsapp9
+    chatgpt, whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8
   ];
 
   return (
