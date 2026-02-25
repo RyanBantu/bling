@@ -26,6 +26,12 @@ const Gallery = () => {
     chatgpt, whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8
   ];
 
+  // Generate random rotation for Polaroid effect
+  const getRotation = (index) => {
+    const rotations = [-2, -1, 0, 1, 2, -1.5, 1.5, -0.5, 0.5, -2.5, 2.5];
+    return rotations[index % rotations.length];
+  };
+
   return (
     <div className="relative z-10 min-h-screen px-4 py-20">
       <div className="max-w-7xl mx-auto">
@@ -33,41 +39,61 @@ const Gallery = () => {
           Gallery
         </h1>
         
-        {/* Desktop: Square grid layout - 5 columns x 4 rows = 20 images */}
+        {/* Desktop: Square grid layout with Polaroid style */}
         <div className="hidden md:flex justify-center">
           <div className="w-full max-w-5xl aspect-square">
-            <div className="grid grid-cols-5 grid-rows-4 gap-2 h-full w-full">
-              {images.map((img, index) => (
-                <div
-                  key={index}
-                  className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group cursor-pointer flex items-center justify-center p-1"
-                >
-                  <img
-                    src={img}
-                    alt={`Memory ${index + 1}`}
-                    className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-              ))}
+            <div className="grid grid-cols-5 grid-rows-4 gap-4 h-full w-full">
+              {images.map((img, index) => {
+                const rotation = getRotation(index);
+                return (
+                  <div
+                    key={index}
+                    className="relative group cursor-pointer"
+                    style={{ transform: `rotate(${rotation}deg)` }}
+                  >
+                    <div className="bg-white rounded-sm shadow-lg p-2 pb-8 hover:shadow-2xl transition-all duration-300 hover:scale-105">
+                      <div className="aspect-square overflow-hidden rounded-sm">
+                        <img
+                          src={img}
+                          alt={`Memory ${index + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      {/* Polaroid bottom border for writing */}
+                      <div className="h-6 mt-2 bg-white"></div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {/* Mobile: Scrollable horizontal layout */}
+        {/* Mobile: Scrollable horizontal layout with Polaroid style */}
         <div className="md:hidden overflow-x-auto pb-4">
           <div className="flex space-x-4 min-w-max px-4">
-            {images.map((img, index) => (
-              <div
-                key={index}
-                className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 flex-shrink-0 w-64 h-64 flex items-center justify-center p-2"
-              >
-                <img
-                  src={img}
-                  alt={`Memory ${index + 1}`}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-            ))}
+            {images.map((img, index) => {
+              const rotation = getRotation(index);
+              return (
+                <div
+                  key={index}
+                  className="relative flex-shrink-0 group"
+                  style={{ transform: `rotate(${rotation}deg)` }}
+                >
+                  <div className="bg-white rounded-sm shadow-lg p-2 pb-8 w-64 hover:shadow-2xl transition-all duration-300">
+                    <div className="aspect-square overflow-hidden rounded-sm">
+                      <img
+                        src={img}
+                        alt={`Memory ${index + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                    {/* Polaroid bottom border for writing */}
+                    <div className="h-6 mt-2 bg-white"></div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
