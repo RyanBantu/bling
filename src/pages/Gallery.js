@@ -26,25 +26,52 @@ const Gallery = () => {
     whatsapp1, whatsapp2, whatsapp3, whatsapp4, whatsapp5, whatsapp6, whatsapp7, whatsapp8, whatsapp9
   ];
 
+  // Define collage layout with varying sizes
+  const collageLayout = [
+    { span: 'col-span-2 row-span-2' }, // Large
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-2' }, // Tall
+    { span: 'col-span-2 row-span-1' }, // Wide
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-2 row-span-2' }, // Large
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-2' }, // Tall
+    { span: 'col-span-2 row-span-1' }, // Wide
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-2 row-span-2' }, // Large
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-2' }, // Tall
+    { span: 'col-span-2 row-span-1' }, // Wide
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-1 row-span-1' }, // Small
+    { span: 'col-span-2 row-span-1' }, // Wide
+    { span: 'col-span-1 row-span-1' }, // Small
+  ];
+
   return (
     <div className="relative z-10 min-h-screen px-4 py-20">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-3xl md:text-4xl font-mono font-bold text-purple-950 mb-8 text-center">
           Gallery
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {images.map((img, index) => (
-            <div
-              key={index}
-              className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
-            >
-              <img
-                src={img}
-                alt={`Memory ${index + 1}`}
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          ))}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 auto-rows-[150px] gap-4">
+          {images.map((img, index) => {
+            const layout = collageLayout[index % collageLayout.length];
+            return (
+              <div
+                key={index}
+                className={`${layout.span} bg-white/90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300 group cursor-pointer`}
+              >
+                <img
+                  src={img}
+                  alt={`Memory ${index + 1}`}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
