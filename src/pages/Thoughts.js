@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { collection, addDoc, deleteDoc, doc, query, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/config';
 
@@ -44,15 +44,12 @@ const Thoughts = () => {
         ...doc.data()
       }));
       setEvents(eventsData);
-      if (eventsData.length > 0 && !selectedEventId) {
-        setSelectedEventId(eventsData[0].id); // Select the most recent event by default
-      }
     }, (error) => {
       console.error('Error fetching events:', error);
     });
 
     return () => unsubscribe();
-  }, [selectedEventId]);
+  }, []);
 
   // Load thoughts from Firestore with real-time updates
   useEffect(() => {
@@ -73,6 +70,32 @@ const Thoughts = () => {
 
     return () => unsubscribe();
   }, []);
+
+  const getTimestampMs = (timestamp) => {
+    if (!timestamp) return 0;
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.getTime();
+  };
+
+  const getLatestPostTime = (eventId) => {
+    const eventThoughts = thoughts.filter(thought => thought.eventId === eventId);
+    if (eventThoughts.length === 0) return 0;
+    return Math.max(...eventThoughts.map(thought => getTimestampMs(thought.timestamp || thought.createdAt)));
+  };
+
+  const sortedEvents = useMemo(() => {
+    return [...events].sort((a, b) => {
+      const latestPostDiff = getLatestPostTime(b.id) - getLatestPostTime(a.id);
+      if (latestPostDiff !== 0) return latestPostDiff;
+      return getTimestampMs(b.createdAt) - getTimestampMs(a.createdAt);
+    });
+  }, [events, thoughts]);
+
+  useEffect(() => {
+    if (sortedEvents.length > 0 && !selectedEventId) {
+      setSelectedEventId(sortedEvents[0].id);
+    }
+  }, [sortedEvents, selectedEventId]);
 
   // Group thoughts by event
   const getThoughtsForEvent = (eventId) => {
@@ -300,12 +323,12 @@ const Thoughts = () => {
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center text-purple-700">
               <p>Loading...</p>
             </div>
-          ) : events.length === 0 ? (
+          ) : sortedEvents.length === 0 ? (
             <div className="bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-8 text-center text-purple-700">
               <p>No events yet. Create your first event to get started!</p>
             </div>
           ) : (
-            events.map((event) => {
+            sortedEvents.map((event) => {
               const eventThoughts = getThoughtsForEvent(event.id);
               return (
                 <div
@@ -482,7 +505,7 @@ const Thoughts = () => {
               </div>
 
               {/* Event Selector and Thought Form */}
-              {events.length > 0 && (
+              {sortedEvents.length > 0 && (
                 <div className="bg-purple-50 rounded-lg p-4">
                   <div className="mb-4">
                     <label htmlFor="eventSelect" className="block text-sm font-medium text-purple-950 mb-2">
@@ -494,7 +517,7 @@ const Thoughts = () => {
                       onChange={(e) => setSelectedEventId(e.target.value)}
                       className="w-full px-4 py-2 border border-purple-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                     >
-                      {events.map(event => (
+                      {sortedEvents.map(event => (
                         <option key={event.id} value={event.id}>
                           {event.title}
                         </option>
